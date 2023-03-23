@@ -2,10 +2,14 @@
 # Andrew Lounsbury
 # 20/2/23
 # Purpose: generate the levine sequence; https://www.youtube.com/watch?v=KNjPPFyEeLo
-triangle = [[2]]
-sequence = []
 
-def generate_triangle(triangle, n):
+import math
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+def generate_triangle(n):
+    triangle = [[2]]
     while len(triangle) < n:
         new_level = []
         curLevel = triangle[len(triangle) - 1]
@@ -17,14 +21,32 @@ def generate_triangle(triangle, n):
             val += 1
         triangle.append(new_level)
         curLevel.reverse()
+    return triangle
 
-def generate_sequence(triangle, sequence, n):
-    generate_triangle(triangle, n)
+def generate_levine(n):
+    triangle = []
+    triangle = generate_triangle(n)
+    sequence = []
     for level in triangle:
         total = 0
         for num in level:
             total += num
         sequence.append(total)
+    return sequence
 
-generate_sequence(triangle, sequence, 12)
+n = 12
+sequence = generate_levine(n)
 print(sequence)
+log_sequence = []
+for s in sequence:
+    log_sequence.append(math.log(s))
+print(log_sequence)
+df1 = pd.DataFrame(log_sequence, columns=["Number"])
+
+indices = []
+for i in range(n):
+    indices.append(i)
+    
+df1['index'] = indices
+sns.scatterplot(x="index", y="Number", data=df1)
+plt.show()
