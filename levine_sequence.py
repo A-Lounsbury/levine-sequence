@@ -41,12 +41,7 @@ log_sequence = []
 for s in sequence:
     log_sequence.append(math.log(s))
 print(log_sequence)
-df1 = pd.DataFrame(log_sequence, columns=["Number"])
-
-indices = []
-for i in range(n):
-    indices.append(i)
-    
-df1['index'] = indices
-sns.scatterplot(x="index", y="Number", data=df1)
+df = pd.DataFrame(log_sequence, columns=["Number"]) 
+df['index'] = [i for i in range(n)]
+sns.scatterplot(x="index", y="Number", data=df)
 plt.show()
